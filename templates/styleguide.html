@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block title %}UI Design System - {{ company }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleguide.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="container">
+
+  <header class="sg-header">
+    <h1 class="page-title">UI Design System</h1>
+    <p class="text-secondary">Phase 1A reference page for tokens and reusable components.
+      This is a style reference only — not an application page.</p>
+  </header>
+
+  <!-- Colors -->
+  <section class="sg-section">
+    <h2 class="section-title">Colors</h2>
+    <p class="sg-note">Locked brand palette. Neutrals are used for backgrounds, borders and text;
+      tints and shades are derived from these six colors only.</p>
+    <div class="sg-grid">
+      <div class="swatch">
+        <div class="swatch__chip" style="background-color: #45A9A9;"></div>
+        <div class="swatch__meta"><span class="swatch__name">Teal — primary</span>#45A9A9</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background-color: #67A2C5;"></div>
+        <div class="swatch__meta"><span class="swatch__name">Blue — secondary</span>#67A2C5</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background-color: #9BCEC1;"></div>
+        <div class="swatch__meta"><span class="swatch__name">Sage — soft accent</span>#9BCEC1</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background-color: #98E8DE;"></div>
+        <div class="swatch__meta"><span class="swatch__name">Mint — success tint</span>#98E8DE</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background-color: #FFB6A6;"></div>
+        <div class="swatch__meta"><span class="swatch__name">Coral — attention</span>#FFB6A6</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__chip" style="background-color: #FFEBD3;"></div>
+        <div class="swatch__meta"><span class="swatch__name">Peach — warm surface</span>#FFEBD3</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography -->
+  <section class="sg-section">
+    <h2 class="section-title">Typography</h2>
+    <div class="card sg-stack">
+      <h3 class="page-title">Page title — Section overview</h3>
+      <h3 class="section-title">Section title</h3>
+      <h4 class="card-title">Card title</h4>
+      <p class="text-body">Body text — the default reading size for the application interface.
+        Calm, scannable sentences at a comfortable internal-tool density.</p>
+      <p class="text-secondary">Secondary text — supporting information and descriptions.</p>
+      <p class="text-muted text-small">Small muted text — timestamps and meta information.</p>
+      <span class="form-label">Form label</span>
+    </div>
+  </section>
+
+  <!-- Buttons -->
+  <section class="sg-section">
+    <h2 class="section-title">Buttons</h2>
+    <div class="sg-row">
+      <button type="button" class="btn btn--primary">Save changes</button>
+      <button type="button" class="btn btn--secondary">Cancel</button>
+      <button type="button" class="btn btn--ghost">More filters</button>
+      <button type="button" class="btn btn--primary" disabled>Save changes</button>
+    </div>
+  </section>
+
+  <!-- Icon buttons -->
+  <section class="sg-section">
+    <h2 class="section-title">Icon buttons</h2>
+    <div class="sg-row">
+      <button type="button" class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.75"></circle>
+          <path d="m10.8 10.8 3 3" stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn" aria-label="Calendar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <rect x="3" y="4.5" width="14" height="12.5" rx="2"></rect>
+          <path d="M3 8.5h14M6.5 2.5v3M13.5 2.5v3"></path>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn" aria-label="More actions">
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <circle cx="4" cy="10" r="1.4"></circle>
+          <circle cx="10" cy="10" r="1.4"></circle>
+          <circle cx="16" cy="10" r="1.4"></circle>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn" aria-label="Disabled action" disabled>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.75"></circle>
+          <path d="m10.8 10.8 3 3" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Inputs -->
+  <section class="sg-section">
+    <h2 class="section-title">Inputs</h2>
+    <div class="sg-row">
+      <div class="sg-field">
+        <label class="form-label" for="sg-text">Text</label>
+        <input type="text" id="sg-text" class="input" placeholder="Enter text">
+      </div>
+      <div class="sg-field">
+        <label class="form-label" for="sg-search">Search</label>
+        <input type="search" id="sg-search" class="input input--search" placeholder="Search records">
+      </div>
+      <div class="sg-field">
+        <label class="form-label" for="sg-select">Select</label>
+        <select id="sg-select" class="select">
+          <option>All statuses</option>
+          <option>Active</option>
+          <option>Pending</option>
+        </select>
+      </div>
+      <div class="sg-field">
+        <label class="form-label" for="sg-date">Date</label>
+        <input type="date" id="sg-date" class="input">
+      </div>
+      <div class="sg-field">
+        <label class="form-label" for="sg-disabled">Disabled</label>
+        <input type="text" id="sg-disabled" class="input" value="Not editable" disabled>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cards -->
+  <section class="sg-section">
+    <h2 class="section-title">Cards</h2>
+    <div class="sg-grid">
+      <div class="card">
+        <h4 class="card-title">Card</h4>
+        <p class="text-secondary" style="margin-top: var(--space-2);">Standard card with title and
+          supporting text. Used for panels and content blocks.</p>
+      </div>
+      <div class="card card--compact">
+        <h4 class="card-title">Compact card</h4>
+        <p class="text-secondary" style="margin-top: var(--space-2);">Reduced padding for denser
+          lists and side panels.</p>
+      </div>
+      <div class="card card--interactive">
+        <h4 class="card-title">Interactive card</h4>
+        <p class="text-secondary" style="margin-top: var(--space-2);">Subtle border and shadow
+          change on hover — no movement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Status badges -->
+  <section class="sg-section">
+    <h2 class="section-title">Status badges</h2>
+    <div class="sg-row">
+      <span class="badge badge--success">Active</span>
+      <span class="badge badge--info">Scheduled</span>
+      <span class="badge badge--warning">Pending</span>
+      <span class="badge badge--attention">Rejected</span>
+      <span class="badge badge--neutral">On hold</span>
+    </div>
+  </section>
+
+  <!-- Tables -->
+  <section class="sg-section">
+    <h2 class="section-title">Tables</h2>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Record</th>
+            <th>Owner</th>
+            <th>Status</th>
+            <th>Updated</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#">Onboarding checklist</a></td>
+            <td class="text-secondary">Operations</td>
+            <td><span class="badge badge--success">Active</span></td>
+            <td class="text-secondary text-small">24 Sep 2026</td>
+            <td><button type="button" class="icon-btn" aria-label="Open record">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <path d="M4 10a6 6 0 0 1 6-6h5M16 10a6 6 0 0 1-6 6H5" stroke-linecap="round"></path>
+              </svg>
+            </button></td>
+          </tr>
+          <tr>
+            <td><a href="#">Quarterly review template</a></td>
+            <td class="text-secondary">People team</td>
+            <td><span class="badge badge--warning">Pending</span></td>
+            <td class="text-secondary text-small">21 Sep 2026</td>
+            <td><button type="button" class="icon-btn" aria-label="Open record">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <path d="M4 10a6 6 0 0 1 6-6h5M16 10a6 6 0 0 1-6 6H5" stroke-linecap="round"></path>
+              </svg>
+            </button></td>
+          </tr>
+          <tr>
+            <td><a href="#">Equipment request form</a></td>
+            <td class="text-secondary">Facilities</td>
+            <td><span class="badge badge--neutral">On hold</span></td>
+            <td class="text-secondary text-small">18 Sep 2026</td>
+            <td><button type="button" class="icon-btn" aria-label="Open record">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <path d="M4 10a6 6 0 0 1 6-6h5M16 10a6 6 0 0 1-6 6H5" stroke-linecap="round"></path>
+              </svg>
+            </button></td>
+          </tr>
+          <tr>
+            <td><a href="#">Vendor timesheet audit</a></td>
+            <td class="text-secondary">Finance</td>
+            <td><span class="badge badge--info">Scheduled</span></td>
+            <td class="text-secondary text-small">12 Sep 2026</td>
+            <td><button type="button" class="icon-btn" aria-label="Open record">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <path d="M4 10a6 6 0 0 1 6-6h5M16 10a6 6 0 0 1-6 6H5" stroke-linecap="round"></path>
+              </svg>
+            </button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sg-note">Generic placeholder records for component demonstration only — no business data.</p>
+  </section>
+
+  <!-- Filter controls -->
+  <section class="sg-section">
+    <h2 class="section-title">Filter controls</h2>
+    <div class="card">
+      <div class="filter-bar">
+        <div class="filter-field filter-field--search">
+          <label class="form-label" for="sg-filter-search">Search</label>
+          <input type="search" id="sg-filter-search" class="input input--search" placeholder="Search records">
+        </div>
+        <div class="filter-field">
+          <label class="form-label" for="sg-filter-status">Status</label>
+          <select id="sg-filter-status" class="select">
+            <option>All statuses</option>
+            <option>Active</option>
+            <option>Pending</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label class="form-label" for="sg-filter-owner">Owner</label>
+          <select id="sg-filter-owner" class="select">
+            <option>All owners</option>
+            <option>Operations</option>
+            <option>Facilities</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn--primary">Apply</button>
+        <button type="button" class="btn btn--ghost">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Links -->
+  <section class="sg-section">
+    <h2 class="section-title">Links</h2>
+    <p class="text-body">An inline link inside a sentence, pointing to
+      <a href="#">a related record</a>. Underline appears on hover.</p>
+  </section>
+
+  <!-- Empty state -->
+  <section class="sg-section">
+    <h2 class="section-title">Empty state</h2>
+    <div class="empty-state">
+      <div class="empty-state__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path d="M4 13 6 5h12l2 8v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path>
+          <path d="M4 13h5l1 2h4l1-2h5"></path>
+        </svg>
+      </div>
+      <p class="empty-state__title">No records yet</p>
+      <p class="empty-state__text">Records will appear here once they are added. Nothing to show
+        in this view at the moment.</p>
+      <button type="button" class="btn btn--secondary">Refresh</button>
+    </div>
+  </section>
+
+</main>
+{% endblock %}

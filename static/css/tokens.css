@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Wissen Baum Engineering Solutions — Internal HR Dashboard
+   Design tokens · Phase 1A
+   --------------------------------------------------------------------------
+   The brand palette is LOCKED (6 colors, listed first).
+   Neutrals (white / light gray / dark gray / near-black) are used for
+   backgrounds, borders and text. All tints and shades are derived from the
+   locked palette via color-mix() — no additional accent hues are introduced.
+   ========================================================================== */
+
+:root {
+  /* ---- Locked brand palette -------------------------------------------- */
+  --brand-coral: #FFB6A6; /* attention / warm highlight        */
+  --brand-peach: #FFEBD3; /* soft warm background              */
+  --brand-sage:  #9BCEC1; /* soft accent                       */
+  --brand-blue:  #67A2C5; /* secondary accent / informational  */
+  --brand-teal:  #45A9A9; /* primary accent                    */
+  --brand-mint:  #98E8DE; /* success tint / subtle selection   */
+
+  /* ---- Neutrals ---------------------------------------------------------- */
+  --color-bg:             #FAF9F7; /* page background (warm off-white)  */
+  --color-surface:        #FFFFFF; /* cards, panels, inputs             */
+  --color-surface-subtle: #F4F2EF; /* table headers, subtle fills       */
+  --color-text:           #242B33; /* primary text (near-black)         */
+  --color-text-secondary: #4E5A66; /* secondary text                    */
+  --color-text-muted:     #87929E; /* muted text, placeholders          */
+  --color-border:         #E8E6E2; /* default border                    */
+  --color-border-strong:  #D6D3CD; /* input / emphasized border         */
+
+  /* ---- Accents (derived from the locked palette) ------------------------- */
+  --color-primary:        var(--brand-teal);
+  --color-primary-strong: color-mix(in srgb, var(--brand-teal) 84%, #000000);
+  --color-primary-soft:   color-mix(in srgb, var(--brand-teal) 10%, #FFFFFF);
+  --color-on-primary:     #FFFFFF;
+  --color-link:           color-mix(in srgb, var(--brand-teal) 62%, #000000);
+  --color-link-hover:     color-mix(in srgb, var(--brand-teal) 78%, #000000);
+
+  /* ---- Status colors (derived from the locked palette) -------------------- */
+  --status-success-fg:    color-mix(in srgb, var(--brand-teal) 58%, var(--color-text));
+  --status-success-bg:    color-mix(in srgb, var(--brand-teal) 13%, #FFFFFF);
+  --status-info-fg:       color-mix(in srgb, var(--brand-blue) 58%, var(--color-text));
+  --status-info-bg:       color-mix(in srgb, var(--brand-blue) 14%, #FFFFFF);
+  --status-warning-fg:    color-mix(in srgb, var(--brand-coral) 48%, var(--color-text));
+  --status-warning-bg:    color-mix(in srgb, var(--brand-peach) 80%, #FFFFFF);
+  --status-attention-fg:  color-mix(in srgb, var(--brand-coral) 58%, var(--color-text));
+  --status-attention-bg:  color-mix(in srgb, var(--brand-coral) 24%, #FFFFFF);
+  --status-neutral-fg:    var(--color-text-secondary);
+  --status-neutral-bg:    var(--color-surface-subtle);
+
+  /* ---- Typography ---------------------------------------------------------- */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+  --font-size-xs:  0.75rem;   /* 12px — labels, badges, table headers */
+  --font-size-sm:  0.8125rem; /* 13px — small text                   */
+  --font-size-md:  0.875rem;  /* 14px — body text (app density)      */
+  --font-size-lg:  1rem;      /* 16px — card titles                  */
+  --font-size-xl:  1.125rem;  /* 18px — section titles               */
+  --font-size-2xl: 1.375rem;  /* 22px — page title                   */
+
+  /* ---- Spacing (4px base scale) --------------------------------------------- */
+  --space-1: 0.25rem; /*  4px */
+  --space-2: 0.5rem;  /*  8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-5: 1.5rem;  /* 24px */
+  --space-6: 2rem;    /* 32px */
+  --space-7: 3rem;    /* 48px */
+
+  /* ---- Radius ---------------------------------------------------------------- */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows ---------------------------------------------------------------- */
+  --shadow-sm:    0 1px 2px rgba(36, 43, 51, 0.06);
+  --shadow-md:    0 3px 10px rgba(36, 43, 51, 0.09);
+  --shadow-focus: 0 0 0 3px color-mix(in srgb, var(--brand-teal) 28%, transparent);
+
+  /* ---- Motion ------------------------------------------------------------------ */
+  --transition-fast: 120ms ease;
+  --transition-base: 180ms ease;
+}

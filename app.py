@@ -1,7 +1,8 @@
 """Wissen Baum Engineering Solutions - Internal HR Dashboard.
 
-Phase 0: minimal Flask foundation. No UI pages, features, or data
-connections yet.
+Phase 0: minimal Flask foundation (GET / smoke test).
+Phase 1A: UI design system + /styleguide reference page.
+No application features, data connections, or authentication yet.
 """
 
 from flask import Flask, render_template
@@ -16,6 +17,15 @@ def index():
         "index.html",
         company="Wissen Baum Engineering Solutions",
         phase="Phase 0 - Project Foundation",
+    )
+
+
+@app.route("/styleguide")
+def styleguide():
+    """Reference page for the Phase 1A UI design system (not an app page)."""
+    return render_template(
+        "styleguide.html",
+        company="Wissen Baum Engineering Solutions",
     )
 
 

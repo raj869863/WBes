@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Style-guide demo helpers — NOT part of the design system.
+   Only used by the /styleguide reference page.
+   ========================================================================== */
+
+.sg-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-7);
+}
+
+.sg-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+
+.sg-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--space-4);
+}
+
+.sg-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.sg-note {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* Swatches */
+.swatch {
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.swatch__chip {
+  height: 64px;
+}
+
+.swatch__meta {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.swatch__name {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Demo field wrapper */
+.sg-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-width: 260px;
+}
