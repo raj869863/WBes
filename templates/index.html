@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ company }} - HR Dashboard{% endblock %}
+
+{% block content %}
+<main class="container">
+  <h1>{{ company }}</h1>
+  <p>Internal HR Dashboard</p>
+  <p class="phase">{{ phase }}</p>
+  <p class="status" id="status">Static JS: not loaded</p>
+</main>
+{% endblock %}
