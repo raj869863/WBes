@@ -1,0 +1,18 @@
+{# Reusable empty-state container.
+    Usage: {% from "partials/empty_state.html" import empty_state %}
+           {{ empty_state("No records found", "Try changing your search or filters.") }}
+    An action button can be passed with a call block:
+           {% call empty_state("Title", "Text") %}<button ...>...</button>{% endcall %} #}
+{% macro empty_state(title, text) -%}
+<div class="empty-state">
+  <div class="empty-state__icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+      <circle cx="11" cy="11" r="6.5"></circle>
+      <path d="m16 16 4.5 4.5" stroke-linecap="round"></path>
+    </svg>
+  </div>
+  <p class="empty-state__title">{{ title }}</p>
+  <p class="empty-state__text">{{ text }}</p>
+  {{ caller() if caller }}
+</div>
+{%- endmacro %}

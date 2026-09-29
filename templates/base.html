@@ -5,12 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Wissen Baum Engineering Solutions{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/shell.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
   {% block extra_styles %}{% endblock %}
 </head>
 <body>
-  {% block content %}{% endblock %}
+  {# Application shell: sidebar + page header + content area.
+     (Merged from the previous shell.html during the project restructure.) #}
+  <div class="app">
+    {% include "partials/sidebar.html" %}
+    <main class="app__main">
+      <header class="app__header">
+        <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+        <p class="app__subtitle text-secondary">{% block page_subtitle %}{% endblock %}</p>
+      </header>
+      <div class="app__content">
+        {% block page_content %}{% endblock %}
+      </div>
+    </main>
+  </div>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   {% block extra_scripts %}{% endblock %}
 </body>

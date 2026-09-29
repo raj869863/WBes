@@ -1,9 +1,10 @@
-{% extends "shell.html" %}
+{% extends "base.html" %}
+{% from "partials/status_badge.html" import status_badge %}
 
 {% block title %}Candidates - {{ company }}{% endblock %}
 
 {% block extra_styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/candidates.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/candidates.css') }}">
 {% endblock %}
 
 {% block page_title %}Candidates{% endblock %}
@@ -124,19 +125,19 @@
           <td class="cand-id">{{ c.cid }}</td>
           <td class="text-secondary">{{ c.role }}</td>
           <td class="text-nowrap text-secondary">{{ c.jd_code }}</td>
-          <td><span class="badge badge--{{ c.status_tone }}">{{ c.status_label }}</span></td>
+          <td>{{ status_badge(c.status_label, c.status_tone) }}</td>
           <td class="text-nowrap">{{ c.date_label }}</td>
           <td class="text-nowrap text-secondary">{{ c.slot or "—" }}</td>
           <td class="text-nowrap">{{ "%.1f"|format(c.experience) }} yrs</td>
           <td class="text-secondary">{{ c.track }}</td>
           <td>
             {% if c.tool_test == "Required" %}
-            <span class="badge badge--info">Required</span>
+            {{ status_badge("Required", "info") }}
             {% else %}
-            <span class="badge badge--neutral">Not Required</span>
+            {{ status_badge("Not Required", "neutral") }}
             {% endif %}
           </td>
-          <td><a class="btn btn--secondary btn--sm" href="{{ url_for('candidate_detail', cid=c.cid) }}">View</a></td>
+          <td><a class="btn btn--secondary btn--sm" href="{{ url_for('candidates.detail', cid=c.cid) }}">View</a></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -159,5 +160,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script src="{{ url_for('static', filename='js/candidates.js') }}"></script>
+<script src="{{ url_for('static', filename='js/pages/candidates.js') }}"></script>
 {% endblock %}

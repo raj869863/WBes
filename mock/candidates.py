@@ -1,7 +1,8 @@
-"""Phase 3 mock data for the Candidates page (WBes internal HR dashboard).
+"""Mock candidate data for the Candidates page (WBes internal HR dashboard).
 
 UI-only mock data, isolated here so it can later be replaced by the real
-data provider (Airtable/MySQL via a service layer). No real personal data.
+data provider (Airtable/MySQL via the services/providers layers). No real
+personal data.
 """
 
 from datetime import date as _date

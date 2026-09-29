@@ -1,9 +1,10 @@
-{% extends "shell.html" %}
+{% extends "base.html" %}
+{% from "partials/status_badge.html" import status_badge %}
 
 {% block title %}{{ candidate.name }} - {{ company }}{% endblock %}
 
 {% block extra_styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/candidates.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/candidates.css') }}">
 {% endblock %}
 
 {% block page_title %}{{ candidate.name }}{% endblock %}
@@ -12,7 +13,7 @@
 {% block page_content %}
 
 <div class="card card--compact">
-  <p><span class="badge badge--{{ candidate.status_tone }}">{{ candidate.status_label }}</span></p>
+  <p>{{ status_badge(candidate.status_label, candidate.status_tone) }}</p>
   <dl class="detail-grid">
     <div><dt class="form-label">Candidate ID</dt><dd>{{ candidate.cid }}</dd></div>
     <div><dt class="form-label">Role</dt><dd>{{ candidate.role }}</dd></div>
@@ -23,7 +24,7 @@
   <p class="text-muted text-small">
     Placeholder only — the full Candidate Detail page will be built in a later phase.
   </p>
-  <a class="btn btn--secondary" href="{{ url_for('candidates') }}">Back to Candidates</a>
+  <a class="btn btn--secondary" href="{{ url_for('candidates.index') }}">Back to Candidates</a>
 </div>
 
 {% endblock %}

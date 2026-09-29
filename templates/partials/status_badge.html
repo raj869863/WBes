@@ -1,0 +1,6 @@
+{# Reusable status badge.
+    Usage: {% from "partials/status_badge.html" import status_badge %}
+           {{ status_badge("Confirmed", "success") }} #}
+{% macro status_badge(label, tone) -%}
+<span class="badge badge--{{ tone }}">{{ label }}</span>
+{%- endmacro %}

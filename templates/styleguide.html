@@ -6,14 +6,12 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styleguide.css') }}">
 {% endblock %}
 
-{% block content %}
-<main class="container">
+{% block page_title %}UI Design System{% endblock %}
+{% block page_subtitle %}Phase 1A reference page for tokens and reusable components — a style reference, not an application page.{% endblock %}
 
-  <header class="sg-header">
-    <h1 class="page-title">UI Design System</h1>
-    <p class="text-secondary">Phase 1A reference page for tokens and reusable components.
-      This is a style reference only — not an application page.</p>
-  </header>
+{% block page_content %}
+<div class="container">
+
 
   <!-- Colors -->
   <section class="sg-section">
@@ -291,5 +289,5 @@
     </div>
   </section>
 
-</main>
+</div>
 {% endblock %}

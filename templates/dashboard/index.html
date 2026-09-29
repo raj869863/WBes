@@ -1,9 +1,10 @@
-{% extends "shell.html" %}
+{% extends "base.html" %}
+{% from "partials/status_badge.html" import status_badge %}
 
 {% block title %}Dashboard - {{ company }}{% endblock %}
 
 {% block extra_styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/dashboard.css') }}">
 {% endblock %}
 
 {% block page_title %}Dashboard{% endblock %}
@@ -75,7 +76,7 @@
             <td class="text-nowrap">{{ row.date }}</td>
             <td class="text-nowrap">{{ row.slot }}</td>
             <td class="text-secondary">{{ row.interviewer }}</td>
-            <td><span class="badge badge--{{ row.status_tone }}">{{ row.status }}</span></td>
+            <td>{{ status_badge(row.status, row.status_tone) }}</td>
             <td>
               {% if row.meet_url %}
               <a class="btn btn--secondary btn--sm" href="{{ row.meet_url }}" target="_blank" rel="noopener">
@@ -105,7 +106,7 @@
     <ul class="activity-list">
       {% for item in activity %}
       <li class="activity-item">
-        <span class="badge badge--{{ item.action_tone }}">{{ item.action }}</span>
+        {{ status_badge(item.action, item.action_tone) }}
         <div class="activity-item__body">
           <p>{{ item.candidate }}</p>
           <p class="text-muted text-small">{{ item.details }}</p>
