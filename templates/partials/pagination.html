@@ -1,2 +1,27 @@
-{# Placeholder: compact pagination footer partial (previous / pages / next,
-   showing X of Y, page-size selector). Will be built in a later phase. #}
+{# Compact pagination footer: "Showing X–Y of Z" + page-size + prev/pages/next.
+   Wired by the page script (e.g. static/js/pages/candidates.js). #}
+<div class="table-footer">
+  <span class="table-footer__info text-small text-secondary" id="pagination-info">Showing — of — candidates</span>
+  <div class="table-footer__controls">
+    <select class="select select--sm" id="pagination-size" aria-label="Rows per page">
+      <option value="10" selected>10 / page</option>
+      <option value="20">20 / page</option>
+      <option value="50">50 / page</option>
+    </select>
+    <nav class="pagination" aria-label="Pagination">
+      <button type="button" class="page-btn" id="pagination-prev" aria-label="Previous page">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m10 3.5-4.5 4.5L10 12.5"></path>
+        </svg>
+      </button>
+      <span class="pagination__pages" id="pagination-pages"></span>
+      <button type="button" class="page-btn" id="pagination-next" aria-label="Next page">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 3.5 4.5 4.5L6 12.5"></path>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</div>

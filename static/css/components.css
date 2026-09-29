@@ -424,3 +424,126 @@ a:focus-visible {
 .empty-state .btn {
   margin-top: var(--space-3);
 }
+
+/* --------------------------------------------------------------------------
+   Table footer + pagination
+   -------------------------------------------------------------------------- */
+
+.table-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.table-footer__info {
+  margin-right: auto;
+}
+
+.table-footer__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.pagination__pages {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.page-btn {
+  min-width: 1.9rem;
+  height: 1.9rem;
+  padding: 0 var(--space-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.page-btn:hover {
+  background-color: var(--color-surface-subtle);
+  color: var(--color-text);
+}
+
+.page-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.page-btn.is-active {
+  background-color: var(--color-primary-soft);
+  color: var(--color-link-hover);
+}
+
+.page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.page-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.pagination__ellipsis {
+  padding: 0 2px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Compact select (pagination page-size, dense toolbars)
+   -------------------------------------------------------------------------- */
+
+.select--sm {
+  padding: var(--space-1) 2rem var(--space-1) var(--space-2);
+  font-size: var(--font-size-sm);
+  min-width: 0;
+  background-position: right var(--space-2) center;
+}
+
+/* --------------------------------------------------------------------------
+   Soft teal button (compact row actions such as "View")
+   -------------------------------------------------------------------------- */
+
+.btn--soft {
+  background-color: var(--color-primary-soft);
+  color: var(--color-link-hover);
+}
+
+.btn--soft:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 20%, #FFFFFF);
+}
+
+/* --------------------------------------------------------------------------
+   Table checkbox columns
+   -------------------------------------------------------------------------- */
+
+.table input[type="checkbox"] {
+  accent-color: var(--color-primary);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}

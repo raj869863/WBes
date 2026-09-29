@@ -11,14 +11,19 @@
   {% block extra_styles %}{% endblock %}
 </head>
 <body>
-  {# Application shell: sidebar + page header + content area.
-     (Merged from the previous shell.html during the project restructure.) #}
+  {# Application shell: sidebar + top header + page header + content area. #}
   <div class="app">
     {% include "partials/sidebar.html" %}
     <main class="app__main">
+      {% include "partials/header.html" %}
       <header class="app__header">
-        <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
-        <p class="app__subtitle text-secondary">{% block page_subtitle %}{% endblock %}</p>
+        <div class="app__header-text">
+          <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+          <p class="app__subtitle text-secondary">{% block page_subtitle %}{% endblock %}</p>
+        </div>
+        <div class="app__header-actions">
+          {% block page_actions %}{% endblock %}
+        </div>
       </header>
       <div class="app__content">
         {% block page_content %}{% endblock %}

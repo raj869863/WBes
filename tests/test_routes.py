@@ -21,7 +21,7 @@ class RouteSmokeTests(unittest.TestCase):
         self.assertEqual(self.client.get("/candidates").status_code, 200)
 
     def test_candidate_detail(self):
-        self.assertEqual(self.client.get("/candidates/WB-1001").status_code, 200)
+        self.assertEqual(self.client.get("/candidates/WB0001").status_code, 200)
 
     def test_candidate_detail_unknown_404(self):
         self.assertEqual(self.client.get("/candidates/NOPE").status_code, 404)

@@ -1,52 +1,87 @@
 /* ==========================================================================
-   Candidates page styles (Phase 3) — page-specific, built on the design system
+   Candidates page styles — built on the design system (tokens/components).
    ========================================================================== */
 
-/* ---- Toolbar -------------------------------------------------------------- */
+/* ---- Filter toolbar (compact row, no card wrapper) -------------------------- */
 
 .candidates-toolbar {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  margin-bottom: var(--space-5);
-}
-
-/* Keep the nine filter selects compact */
-.candidates-toolbar .filter-field .select,
-.candidates-toolbar .filter-field .input {
-  min-width: 9.75rem;
-}
-
-.candidates-toolbar__actions {
-  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 
-.candidates-count {
-  margin-right: auto;
+.candidates-toolbar .input--search {
+  width: 16rem;
 }
 
-/* ---- Table ------------------------------------------------------------------ */
+.candidates-toolbar .select {
+  width: auto;
+  min-width: 9.5rem;
+}
 
-/* 11 columns need width; the container scrolls horizontally instead */
+/* ---- Table card: table + pagination footer as one surface -------------------- */
+
+.table-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.table-card .table-container {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ---- Candidates table --------------------------------------------------------- */
+
+/* 12 columns: keep readable, let the container scroll horizontally */
 .table.candidates-table {
-  min-width: 68rem;
+  min-width: 74rem;
+}
+
+.candidates-table td {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+}
+
+/* Checkbox column */
+.col-check {
+  width: 2.75rem;
+  text-align: center;
+}
+
+/* Candidate column: name primary, email secondary (no avatars) */
+.cand-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 .cand-name {
   font-weight: 600;
 }
 
+.cand-contact {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Candidate ID: compact and secondary */
 .cand-id {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
-/* ---- Empty state -------------------------------------------------------------- */
+/* ---- Empty state ---------------------------------------------------------------- */
 
-.candidates-empty {
+.empty-state {
   margin-top: var(--space-4);
 }
 
@@ -55,7 +90,7 @@
   display: none;
 }
 
-/* ---- Candidate detail placeholder ------------------------------------------------ */
+/* ---- Candidate detail placeholder -------------------------------------------------- */
 
 .detail-grid {
   display: grid;
