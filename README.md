@@ -43,4 +43,4 @@ pip install -r requirements.txt
 python app.py          # http://127.0.0.1:5000
 ```
 
-Routes: `/` (Phase 0 smoke test) · `/styleguide` (design-system reference).
+Routes: `/` (Dashboard) · `/styleguide` (design-system reference).

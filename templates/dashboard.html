@@ -1,0 +1,120 @@
+{% extends "shell.html" %}
+
+{% block title %}Dashboard - {{ company }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Recruitment &amp; interview operations{% endblock %}
+
+{% block page_content %}
+
+<!-- Section 1: KPI cards -->
+<section class="kpi-grid" aria-label="Key metrics">
+  {% for kpi in kpis %}
+  <div class="kpi-card card card--compact">
+    <div class="kpi-card__top">
+      <span class="kpi-card__icon kpi-card__icon--{{ kpi.tone }}">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="{{ kpi.icon_path }}"></path>
+        </svg>
+      </span>
+      <span class="kpi-card__label">{{ kpi.label }}</span>
+    </div>
+    <p class="kpi-card__value">{{ kpi.value }}</p>
+    <p class="kpi-card__hint">{{ kpi.hint }}</p>
+  </div>
+  {% endfor %}
+</section>
+
+<div class="dash-grid">
+
+  <!-- Section 2: Candidate status overview -->
+  <section aria-label="Candidate status overview">
+    <div class="card">
+      <h2 class="section-title">Candidate Status Overview</h2>
+      <p class="text-muted text-small">Distribution of {{ kpis[0].value }} candidates by current status</p>
+      <ul class="status-list">
+        {% for s in statuses %}
+        <li class="status-row">
+          <span class="status-row__label">{{ s.label }}</span>
+          <span class="status-row__bar">
+            <span class="status-row__fill status-row__fill--{{ s.tone }}" style="width: {{ s.pct }}%"></span>
+          </span>
+          <span class="status-row__count">{{ s.count }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Section 3: Upcoming interviews -->
+  <section aria-label="Upcoming interviews">
+    <div class="table-container">
+      <h2 class="section-title table-heading">Upcoming Interviews</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Candidate</th>
+            <th>Role</th>
+            <th>Date</th>
+            <th>Time / Slot</th>
+            <th>Interviewer</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in upcoming %}
+          <tr>
+            <td>{{ row.candidate }}</td>
+            <td class="text-secondary">{{ row.role }}</td>
+            <td class="text-nowrap">{{ row.date }}</td>
+            <td class="text-nowrap">{{ row.slot }}</td>
+            <td class="text-secondary">{{ row.interviewer }}</td>
+            <td><span class="badge badge--{{ row.status_tone }}">{{ row.status }}</span></td>
+            <td>
+              {% if row.meet_url %}
+              <a class="btn btn--secondary btn--sm" href="{{ row.meet_url }}" target="_blank" rel="noopener">
+                Google Meet
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M6 3.5h6.5V10M12.5 3.5 6.5 9.5M11 12.5H3.5V5"></path>
+                </svg>
+              </a>
+              {% else %}
+              <span class="text-muted" aria-label="No meeting link">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<!-- Section 4: Recent activity -->
+<section class="dash-section" aria-label="Recent activity">
+  <div class="card">
+    <h2 class="section-title">Recent Activity</h2>
+    <ul class="activity-list">
+      {% for item in activity %}
+      <li class="activity-item">
+        <span class="badge badge--{{ item.action_tone }}">{{ item.action }}</span>
+        <div class="activity-item__body">
+          <p>{{ item.candidate }}</p>
+          <p class="text-muted text-small">{{ item.details }}</p>
+        </div>
+        <time class="activity-item__time text-small text-muted">{{ item.time }}</time>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% endblock %}

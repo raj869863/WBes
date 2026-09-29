@@ -41,6 +41,19 @@
   box-shadow: var(--shadow-focus);
 }
 
+.btn svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+/* Small size (table row actions, compact toolbars) */
+.btn--sm {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+}
+
 /* Primary */
 .btn--primary {
   background-color: var(--color-primary);
