@@ -1,0 +1,29 @@
+{% extends "shell.html" %}
+
+{% block title %}{{ candidate.name }} - {{ company }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/candidates.css') }}">
+{% endblock %}
+
+{% block page_title %}{{ candidate.name }}{% endblock %}
+{% block page_subtitle %}Candidate detail — placeholder page{% endblock %}
+
+{% block page_content %}
+
+<div class="card card--compact">
+  <p><span class="badge badge--{{ candidate.status_tone }}">{{ candidate.status_label }}</span></p>
+  <dl class="detail-grid">
+    <div><dt class="form-label">Candidate ID</dt><dd>{{ candidate.cid }}</dd></div>
+    <div><dt class="form-label">Role</dt><dd>{{ candidate.role }}</dd></div>
+    <div><dt class="form-label">JD Code</dt><dd>{{ candidate.jd_code }}</dd></div>
+    <div><dt class="form-label">Email</dt><dd>{{ candidate.email }}</dd></div>
+    <div><dt class="form-label">Phone</dt><dd>{{ candidate.phone }}</dd></div>
+  </dl>
+  <p class="text-muted text-small">
+    Placeholder only — the full Candidate Detail page will be built in a later phase.
+  </p>
+  <a class="btn btn--secondary" href="{{ url_for('candidates') }}">Back to Candidates</a>
+</div>
+
+{% endblock %}

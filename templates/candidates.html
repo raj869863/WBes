@@ -1,0 +1,163 @@
+{% extends "shell.html" %}
+
+{% block title %}Candidates - {{ company }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/candidates.css') }}">
+{% endblock %}
+
+{% block page_title %}Candidates{% endblock %}
+{% block page_subtitle %}Manage candidates and track their recruitment progress{% endblock %}
+
+{% block page_content %}
+
+<!-- Toolbar: search + filters + actions -->
+<section class="card card--compact candidates-toolbar" aria-label="Search and filters">
+  <div class="filter-bar">
+    <div class="filter-field filter-field--search">
+      <label class="form-label" for="candidate-search">Search</label>
+      <input type="search" id="candidate-search" class="input input--search"
+             placeholder="Search name, ID, phone or email" autocomplete="off">
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-status">Status</label>
+      <select class="select" id="f-status" data-filter="status">
+        <option value="">All statuses</option>
+        {% for v, l in filters.status %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-role">Role</label>
+      <select class="select" id="f-role" data-filter="role">
+        <option value="">All roles</option>
+        {% for v, l in filters.role %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-jd_code">JD Code</label>
+      <select class="select" id="f-jd_code" data-filter="jd_code">
+        <option value="">All JD codes</option>
+        {% for v, l in filters.jd_code %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-track">Track</label>
+      <select class="select" id="f-track" data-filter="track">
+        <option value="">All tracks</option>
+        {% for v, l in filters.track %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-interview_date">Interview Date</label>
+      <select class="select" id="f-interview_date" data-filter="interview_date">
+        <option value="">All dates</option>
+        {% for v, l in filters.interview_date %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-slot">Selected Slot</label>
+      <select class="select" id="f-slot" data-filter="slot">
+        <option value="">All slots</option>
+        {% for v, l in filters.slot %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-experience_bucket">Experience</label>
+      <select class="select" id="f-experience_bucket" data-filter="experience_bucket">
+        <option value="">All experience</option>
+        {% for v, l in filters.experience %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-tool_test">Tool Test</label>
+      <select class="select" id="f-tool_test" data-filter="tool_test">
+        <option value="">All</option>
+        {% for v, l in filters.tool_test %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="filter-field">
+      <label class="form-label" for="f-processed">Processed</label>
+      <select class="select" id="f-processed" data-filter="processed">
+        <option value="">All</option>
+        {% for v, l in filters.processed %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="candidates-toolbar__actions">
+    <span class="candidates-count text-small text-muted" id="candidate-count">
+      Showing {{ candidates|length }} of {{ candidates|length }} candidates
+    </span>
+    <button type="button" class="btn btn--ghost js-clear-filters" id="clear-filters">Clear Filters</button>
+    <button type="button" class="btn btn--secondary" id="export-csv">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 3.5v8m0 0 3.5-3.5M10 11.5 6.5 8M4 15h12"></path>
+      </svg>
+      Export CSV
+    </button>
+  </div>
+</section>
+
+<!-- Candidates table -->
+<section aria-label="Candidate list">
+  <div class="table-container">
+    <table class="table candidates-table" id="candidates-table">
+      <thead>
+        <tr>
+          <th>Candidate</th>
+          <th>Candidate ID</th>
+          <th>Role</th>
+          <th>JD Code</th>
+          <th>Status</th>
+          <th>Interview Date</th>
+          <th>Slot</th>
+          <th>Experience</th>
+          <th>Track</th>
+          <th>Tool Test</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in candidates %}
+        <tr data-row='{{ c|tojson }}'>
+          <td class="cand-name">{{ c.name }}</td>
+          <td class="cand-id">{{ c.cid }}</td>
+          <td class="text-secondary">{{ c.role }}</td>
+          <td class="text-nowrap text-secondary">{{ c.jd_code }}</td>
+          <td><span class="badge badge--{{ c.status_tone }}">{{ c.status_label }}</span></td>
+          <td class="text-nowrap">{{ c.date_label }}</td>
+          <td class="text-nowrap text-secondary">{{ c.slot or "—" }}</td>
+          <td class="text-nowrap">{{ "%.1f"|format(c.experience) }} yrs</td>
+          <td class="text-secondary">{{ c.track }}</td>
+          <td>
+            {% if c.tool_test == "Required" %}
+            <span class="badge badge--info">Required</span>
+            {% else %}
+            <span class="badge badge--neutral">Not Required</span>
+            {% endif %}
+          </td>
+          <td><a class="btn btn--secondary btn--sm" href="{{ url_for('candidate_detail', cid=c.cid) }}">View</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="empty-state" id="candidates-empty" hidden>
+    <div class="empty-state__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5"></circle>
+        <path d="m16 16 4.5 4.5" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <p class="empty-state__title">No candidates found</p>
+    <p class="empty-state__text">Try changing your search or filters.</p>
+    <button type="button" class="btn btn--secondary js-clear-filters">Clear Filters</button>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/candidates.js') }}"></script>
+{% endblock %}

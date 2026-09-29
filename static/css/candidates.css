@@ -1,0 +1,73 @@
+/* ==========================================================================
+   Candidates page styles (Phase 3) — page-specific, built on the design system
+   ========================================================================== */
+
+/* ---- Toolbar -------------------------------------------------------------- */
+
+.candidates-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+/* Keep the nine filter selects compact */
+.candidates-toolbar .filter-field .select,
+.candidates-toolbar .filter-field .input {
+  min-width: 9.75rem;
+}
+
+.candidates-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.candidates-count {
+  margin-right: auto;
+}
+
+/* ---- Table ------------------------------------------------------------------ */
+
+/* 11 columns need width; the container scrolls horizontally instead */
+.table.candidates-table {
+  min-width: 68rem;
+}
+
+.cand-name {
+  font-weight: 600;
+}
+
+.cand-id {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ---- Empty state -------------------------------------------------------------- */
+
+.candidates-empty {
+  margin-top: var(--space-4);
+}
+
+/* .empty-state uses display:flex, which would override the hidden attribute */
+.empty-state[hidden] {
+  display: none;
+}
+
+/* ---- Candidate detail placeholder ------------------------------------------------ */
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: var(--space-4) var(--space-5);
+  margin: var(--space-4) 0;
+}
+
+.detail-grid dt {
+  margin-bottom: 2px;
+}
+
+.detail-grid dd {
+  margin: 0;
+}
