@@ -15,21 +15,21 @@
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M10 4.2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM4.5 16.4c.6-2.8 2.9-4.2 5.5-4.2s4.9 1.4 5.5 4.2"></path></svg>
       Candidates
     </a>
-    <a href="#" class="sidebar__link">
+    <a href="{{ url_for('calendar.index') }}" class="sidebar__link {% if request.endpoint == 'calendar.index' %}is-active{% endif %}">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12.5" rx="2"></rect><path d="M3 8.5h14M6.5 2.5v3M13.5 2.5v3"></path></svg>
       Calendar
     </a>
-    <a href="#" class="sidebar__link">
+    <a href="{{ url_for('interviews.index') }}" class="sidebar__link {% if request.endpoint == 'interviews.index' %}is-active{% endif %}">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="5.5" width="10.5" height="8" rx="1.8"></rect><path d="m13 9 4.5-2.6v7.2L13 11z" stroke-linejoin="round"></path></svg>
       Interviews
     </a>
-    <a href="#" class="sidebar__link">
+    <a href="{{ url_for('jobs.index') }}" class="sidebar__link {% if request.endpoint == 'jobs.index' %}is-active{% endif %}">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 2.5h6l3.5 3.5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1z" stroke-linejoin="round"></path><path d="M12 2.5V6h3.5M7.5 11h5M7.5 14h5"></path></svg>
       Jobs / JDs
     </a>
-    <a href="#" class="sidebar__link">
+    <a href="{{ url_for('activity.index') }}" class="sidebar__link {% if request.endpoint == 'activity.index' %}is-active{% endif %}">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 10h3l1.5-4 3 8L12 10h5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      Activity
+      Activity / Logs
     </a>
   </nav>
 </aside>

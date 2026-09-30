@@ -75,7 +75,36 @@ _RAW = [
     {"name": "Akash Pawar",     "cid": "WB0024", "role": "PLC Automation Engineer",      "jd_code": "JD-PAE-110", "status": "hr_call_requested", "interview_date": "",           "slot": "",             "experience": 0.5,  "track": "Automation",   "tool_test": "Not Required", "processed": False, "phone": "+91 98200 10024", "email": "akash.pawar@example.com"},
 ]
 
+# --- Extra detail-page fields (additive; table/filters unchanged) -----------------
+# Area derives from the role; interview extras join against mock.interviews.
+
+AREA_BY_ROLE = {
+    "CAE Engineer": "Engineering",
+    "Structural Analyst": "Engineering",
+    "Electrical Design Engineer": "Engineering",
+    "PLC Automation Engineer": "Engineering",
+    "HVAC Project Engineer": "Projects",
+    "CAD Documentation Specialist": "Documentation",
+    "Site Survey Engineer": "Field Services",
+}
+
+# Notes / remarks and last interaction shown on the Candidate Detail page.
+_DETAIL_EXTRAS = {
+    "WB0001": {"notes": "Strong CAE background; available immediately. Prefers morning slots.", "last_interaction": "29 Sep 2026, 09:15"},
+    "WB0003": {"notes": "Requested a late-morning slot; currently serving notice period.", "last_interaction": "28 Sep 2026, 15:05"},
+    "WB0004": {"notes": "Rescheduled once at candidate request. Avoid Friday afternoons.", "last_interaction": "27 Sep 2026, 16:44"},
+    "WB0009": {"notes": "No response to two follow-ups; cooldown message sent.", "last_interaction": "29 Sep 2026, 08:12"},
+    "WB0013": {"notes": "Reschedule initiated by HR; interviewer on leave during first week of Oct.", "last_interaction": "24 Sep 2026, 17:22"},
+    "WB0015": {"notes": "Withdrew after accepting another offer; record kept for audit.", "last_interaction": "28 Sep 2026, 15:47"},
+    "WB0017": {"notes": "Second-choice candidate; slot held pending primary confirmation.", "last_interaction": "24 Sep 2026, 14:09"},
+    "WB0022": {"notes": "Senior profile; interviewer requested extended 45-min slot.", "last_interaction": "26 Sep 2026, 17:55"},
+}
+
+_DEFAULT_EXTRAS = {"notes": "", "last_interaction": "—"}
+
 # --- Decorated candidates (display fields added) -----------------------------------
+
+from mock import interviews as _interviews  # noqa: E402  (joined for detail page)
 
 CANDIDATES = []
 for _raw in _RAW:
@@ -85,6 +114,16 @@ for _raw in _RAW:
     _c["experience_label"] = _experience_label(_c["experience"])
     _c["status_label"] = STATUS_META[_c["status"]]["label"]
     _c["status_tone"] = STATUS_META[_c["status"]]["tone"]
+    _c["area"] = AREA_BY_ROLE.get(_c["role"], "Engineering")
+    _iv = _interviews.get_interview(_c["cid"])
+    _c["interview"] = _iv
+    _c["interviewer"] = _iv["interviewer"] if _iv else None
+    _c["meet_url"] = _iv["meet_url"] if _iv else None
+    _c["event_id"] = _iv["event_id"] if _iv else None
+    _c["confirmed_at"] = _iv["confirmed_at"] if _iv else None
+    _c["resume"] = "%s_Resume.pdf" % _c["cid"]
+    _c["question_set"] = "QS-%s" % _c["jd_code"].split("-")[1]
+    _c.update(_DETAIL_EXTRAS.get(_c["cid"], _DEFAULT_EXTRAS))
     CANDIDATES.append(_c)
 
 

@@ -1,12 +1,86 @@
 {% extends "base.html" %}
+{% from "partials/status_badge.html" import status_badge %}
 
-{% block title %}Calendar{% endblock %}
+{% block title %}Calendar - {{ company }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/calendar.css') }}">
+{% endblock %}
 
 {% block page_title %}Calendar{% endblock %}
-{% block page_subtitle %}Interview scheduling calendar{% endblock %}
+{% block page_subtitle %}Interview scheduling overview.{% endblock %}
+
+{% block page_actions %}
+<a class="btn btn--secondary" href="{{ url_for('calendar.index', month=prev_month) }}">
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 3.5-4.5 4.5L10 12.5"></path></svg>
+  Previous
+</a>
+<span class="calendar-current text-secondary">{{ month_label }}</span>
+<a class="btn btn--secondary" href="{{ url_for('calendar.index', month=next_month) }}">Next
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5"></path></svg>
+</a>
+{% if not is_current_month %}
+<a class="btn btn--primary" href="{{ url_for('calendar.index') }}">Today</a>
+{% else %}
+<button type="button" class="btn btn--primary" disabled>Today</button>
+{% endif %}
+{% endblock %}
 
 {% block page_content %}
-<div class="card">
-  <p class="text-secondary">The Calendar page will be built in a later phase.</p>
+
+<!-- Month grid (desktop/tablet) -->
+<div class="calendar-card" aria-label="Interview calendar">
+  <div class="calendar-grid" role="grid">
+    {% for wd in weekdays %}<div class="calendar-weekday" role="columnheader">{{ wd }}</div>{% endfor %}
+    {% for week in weeks %}
+      {% for day in week %}
+      {% if day is none %}
+      <div class="calendar-day is-empty" role="gridcell"></div>
+      {% else %}
+      <div class="calendar-day" role="gridcell">
+        <span class="calendar-day__num">{{ day.day }}</span>
+        {% for iv in day.entries[:3] %}
+        <a class="calendar-entry calendar-entry--{{ iv.status_tone }}"
+           href="{{ url_for('candidates.detail', cid=iv.cid) }}" title="{{ iv.candidate }} · {{ iv.role }}">
+          <span class="calendar-entry__time">{{ iv.slot or iv.date_label }}</span>
+          <span class="calendar-entry__name">{{ iv.candidate }}</span>
+        </a>
+        {% endfor %}
+        {% if day.extra %}
+        <span class="calendar-entry__more text-small text-muted">+{{ day.extra }} more</span>
+        {% endif %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
 </div>
+
+<!-- Day list (mobile) -->
+<div class="calendar-list" aria-label="Interviews by day">
+  <h2 class="section-title">{{ month_label }}</h2>
+  {% set ns = namespace(last=None) %}
+  {% for iv in entries %}
+    {% if ns.last != iv.date %}
+      {% set ns.last = iv.date %}
+      <h3 class="calendar-list__date text-small">{{ iv.date_label }}</h3>
+    {% endif %}
+    <a class="calendar-list__item" href="{{ url_for('candidates.detail', cid=iv.cid) }}">
+      <span class="calendar-list__slot text-small text-nowrap">{{ iv.slot or "Slot to be picked" }}</span>
+      <span class="calendar-list__body">
+        <span class="calendar-list__name">{{ iv.candidate }}</span>
+        <span class="text-small text-muted">{{ iv.role }} · {{ iv.interviewer }}</span>
+      </span>
+      {{ status_badge(iv.status, iv.status_tone) }}
+    </a>
+  {% else %}
+  <div class="empty-state">
+    <p class="empty-state__title">No interviews this month</p>
+    <p class="empty-state__text">Scheduled interviews will appear here.</p>
+  </div>
+  {% endfor %}
+</div>
+
 {% endblock %}

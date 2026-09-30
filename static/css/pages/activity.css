@@ -1,1 +1,11 @@
-/* Activity page styles — placeholder (page styles will be added in a later phase). */
+/* Activity / Logs page styles (list-page patterns live in components.css). */
+
+.table {
+  min-width: 56rem;
+}
+
+/* Keep the details column readable but bounded */
+.activity-details {
+  max-width: 34rem;
+  min-width: 18rem;
+}

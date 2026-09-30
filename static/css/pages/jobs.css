@@ -1,1 +1,11 @@
-/* Jobs page styles — placeholder (page styles will be added in a later phase). */
+/* Jobs / JDs page styles (list-page patterns live in components.css). */
+
+.table {
+  min-width: 64rem;
+}
+
+/* Keep the description readable but bounded */
+.jobs-desc {
+  max-width: 26rem;
+  min-width: 16rem;
+}

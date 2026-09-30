@@ -26,10 +26,30 @@ class RouteSmokeTests(unittest.TestCase):
     def test_candidate_detail_unknown_404(self):
         self.assertEqual(self.client.get("/candidates/NOPE").status_code, 404)
 
-    def test_unbuilt_pages_404(self):
-        """Calendar/interviews/jobs/activity routes do not exist yet."""
-        for path in ("/calendar", "/interviews", "/jobs", "/activity"):
-            self.assertEqual(self.client.get(path).status_code, 404, path)
+    def test_calendar(self):
+        self.assertEqual(self.client.get("/calendar").status_code, 200)
+
+    def test_calendar_month_param(self):
+        self.assertEqual(
+            self.client.get("/calendar?month=2026-10").status_code, 200
+        )
+
+    def test_calendar_invalid_month_falls_back(self):
+        self.assertEqual(
+            self.client.get("/calendar?month=not-a-month").status_code, 200
+        )
+
+    def test_interviews(self):
+        self.assertEqual(self.client.get("/interviews").status_code, 200)
+
+    def test_jobs(self):
+        self.assertEqual(self.client.get("/jobs").status_code, 200)
+
+    def test_activity(self):
+        self.assertEqual(self.client.get("/activity").status_code, 200)
+
+    def test_styleguide(self):
+        self.assertEqual(self.client.get("/styleguide").status_code, 200)
 
 
 if __name__ == "__main__":

@@ -8,23 +8,129 @@
 {% endblock %}
 
 {% block page_title %}{{ candidate.name }}{% endblock %}
-{% block page_subtitle %}Candidate detail — placeholder page{% endblock %}
+{% block page_subtitle %}{{ candidate.cid }} · {{ candidate.role }}{% endblock %}
+
+{% block page_actions %}
+<a class="btn btn--secondary" href="{{ url_for('candidates.index') }}">
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M10 3.5 5.5 8l4.5 4.5"></path>
+  </svg>
+  Back to Candidates
+</a>
+{% if candidate.meet_url %}
+<a class="btn btn--primary" href="{{ candidate.meet_url }}" target="_blank" rel="noopener">
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M6 3.5h6.5V10M12.5 3.5 6.5 9.5M11 12.5H3.5V5"></path>
+  </svg>
+  Google Meet
+</a>
+{% endif %}
+{% endblock %}
 
 {% block page_content %}
 
-<div class="card card--compact">
-  <p>{{ status_badge(candidate.status_label, candidate.status_tone) }}</p>
-  <dl class="detail-grid">
-    <div><dt class="form-label">Candidate ID</dt><dd>{{ candidate.cid }}</dd></div>
-    <div><dt class="form-label">Role</dt><dd>{{ candidate.role }}</dd></div>
-    <div><dt class="form-label">JD Code</dt><dd>{{ candidate.jd_code }}</dd></div>
-    <div><dt class="form-label">Email</dt><dd>{{ candidate.email }}</dd></div>
-    <div><dt class="form-label">Phone</dt><dd>{{ candidate.phone }}</dd></div>
-  </dl>
-  <p class="text-muted text-small">
-    Placeholder only — the full Candidate Detail page will be built in a later phase.
-  </p>
-  <a class="btn btn--secondary" href="{{ url_for('candidates.index') }}">Back to Candidates</a>
+<div class="detail-meta">
+  {{ status_badge(candidate.status_label, candidate.status_tone) }}
+  {% if candidate.interview and candidate.interview.status == "Rescheduled" %}
+  <span class="badge badge--warning">Interview Rescheduled</span>
+  {% elif candidate.status == "cancelled" %}
+  <span class="badge badge--attention">Interview Cancelled</span>
+  {% endif %}
+</div>
+
+<div class="detail-grid-2">
+
+  <!-- Candidate information -->
+  <section class="card card--compact" aria-label="Candidate information">
+    <h2 class="section-title">Candidate Information</h2>
+    <dl class="detail-grid">
+      <div><dt class="form-label">Name</dt><dd>{{ candidate.name }}</dd></div>
+      <div><dt class="form-label">Candidate ID</dt><dd>{{ candidate.cid }}</dd></div>
+      <div><dt class="form-label">Phone</dt><dd>{{ candidate.phone }}</dd></div>
+      <div><dt class="form-label">Email</dt><dd>{{ candidate.email }}</dd></div>
+      <div><dt class="form-label">Experience</dt><dd>{{ candidate.experience_label }}</dd></div>
+      <div><dt class="form-label">Role</dt><dd>{{ candidate.role }}</dd></div>
+      <div><dt class="form-label">JD Code</dt><dd>{{ candidate.jd_code }}</dd></div>
+      <div><dt class="form-label">Area</dt><dd>{{ candidate.area }}</dd></div>
+      <div><dt class="form-label">Track</dt><dd>{{ candidate.track }}</dd></div>
+    </dl>
+  </section>
+
+  <!-- Interview information -->
+  <section class="card card--compact" aria-label="Interview information">
+    <h2 class="section-title">Interview Information</h2>
+    <dl class="detail-grid">
+      <div><dt class="form-label">Interview Date</dt><dd>{{ candidate.date_label }}</dd></div>
+      <div><dt class="form-label">Slot</dt><dd>{{ candidate.slot or "—" }}</dd></div>
+      <div><dt class="form-label">Interviewer</dt><dd>{{ candidate.interviewer or "—" }}</dd></div>
+      <div><dt class="form-label">Google Meet</dt><dd>
+        {% if candidate.meet_url %}
+        <a href="{{ candidate.meet_url }}" target="_blank" rel="noopener">Join meeting</a>
+        {% else %}—{% endif %}
+      </dd></div>
+      <div><dt class="form-label">Google Event ID</dt><dd class="detail-code">{{ candidate.event_id or "—" }}</dd></div>
+      <div><dt class="form-label">Confirmed At</dt><dd>{{ candidate.confirmed_at or "—" }}</dd></div>
+      {% if candidate.interview and candidate.interview.status == "Rescheduled" %}
+      <div><dt class="form-label">State</dt><dd>Rescheduled — {{ candidate.interview.date_label }}, {{ candidate.interview.slot or "slot to be picked" }}</dd></div>
+      {% elif candidate.status == "cancelled" %}
+      <div><dt class="form-label">State</dt><dd>Cancelled by candidate</dd></div>
+      {% endif %}
+    </dl>
+  </section>
+
+  <!-- Documents -->
+  <section class="card card--compact" aria-label="Documents">
+    <h2 class="section-title">Documents</h2>
+    <ul class="doc-list">
+      <li class="doc-item">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path d="M6 2.5h6l3.5 3.5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1z" stroke-linejoin="round"></path>
+          <path d="M12 2.5V6h3.5"></path>
+        </svg>
+        <span class="doc-name">Resume</span>
+        <span class="doc-file text-small text-muted">{{ candidate.resume }}</span>
+        <a class="btn btn--soft btn--sm" href="#" title="Document preview will be added in a later phase">View</a>
+      </li>
+      <li class="doc-item">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path d="M6 2.5h6l3.5 3.5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1z" stroke-linejoin="round"></path>
+          <path d="M12 2.5V6h3.5M7.5 11h5M7.5 14h5"></path>
+        </svg>
+        <span class="doc-name">Question Set</span>
+        <span class="doc-file text-small text-muted">{{ candidate.question_set }}</span>
+        <a class="btn btn--soft btn--sm" href="#" title="Document preview will be added in a later phase">View</a>
+      </li>
+      <li class="doc-item">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path d="M12.5 3.5 16 7l-3.5 3.5M16 7H8a4 4 0 0 0-4 4v2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M4 16.5h9" stroke-linecap="round"></path>
+        </svg>
+        <span class="doc-name">Tool Test</span>
+        <span class="doc-file text-small text-muted">{{ candidate.tool_test }}</span>
+        {% if candidate.tool_test == "Required" and candidate.interview %}
+        <a class="btn btn--soft btn--sm" href="#" title="Tool test will be added in a later phase">Pending</a>
+        {% else %}
+        <span class="text-small text-muted">—</span>
+        {% endif %}
+      </li>
+    </ul>
+  </section>
+
+  <!-- Notes + interaction -->
+  <section class="card card--compact" aria-label="Notes and interaction">
+    <h2 class="section-title">Notes</h2>
+    <p class="detail-notes text-secondary">
+      {{ candidate.notes or "No notes recorded for this candidate yet." }}
+    </p>
+    <h2 class="section-title detail-gap">Interaction</h2>
+    <dl class="detail-grid">
+      <div><dt class="form-label">Last Interaction</dt><dd>{{ candidate.last_interaction }}</dd></div>
+      <div><dt class="form-label">Current Status</dt><dd>{{ status_badge(candidate.status_label, candidate.status_tone) }}</dd></div>
+    </dl>
+  </section>
+
 </div>
 
 {% endblock %}

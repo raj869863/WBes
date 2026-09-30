@@ -1,12 +1,94 @@
 {% extends "base.html" %}
+{% from "partials/status_badge.html" import status_badge %}
 
-{% block title %}Activity{% endblock %}
+{% block title %}Activity / Logs - {{ company }}{% endblock %}
 
-{% block page_title %}Activity{% endblock %}
-{% block page_subtitle %}Recruitment activity log{% endblock %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/activity.css') }}">
+{% endblock %}
+
+{% block page_title %}Activity / Logs{% endblock %}
+{% block page_subtitle %}Track recruitment workflow activity and system events.{% endblock %}
+
+{% block page_actions %}
+<button type="button" class="btn btn--secondary" id="export-csv">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M10 3.5v8m0 0 3.5-3.5M10 11.5 6.5 8M4 15h12"></path>
+  </svg>
+  Export CSV
+</button>
+{% endblock %}
 
 {% block page_content %}
-<div class="card">
-  <p class="text-secondary">The Activity / Logs page will be built in a later phase.</p>
-</div>
+
+<!-- Filter toolbar -->
+<section class="toolbar" aria-label="Search and filters">
+  <input type="search" id="log-search" class="input input--search"
+         placeholder="Search logs..." autocomplete="off"
+         aria-label="Search by candidate, details or message ID">
+  <select class="select" id="f-action" data-filter="action" aria-label="Filter by action">
+    <option value="">Action</option>
+    {% for v, l in filters.action %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <select class="select" id="f-candidate" data-filter="candidate" aria-label="Filter by candidate">
+    <option value="">Candidate</option>
+    {% for v, l in filters.candidate %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <button type="button" class="btn btn--ghost js-clear-filters" id="clear-filters">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 3.8 6.2 7 3 10.2M7.5 13h6"></path>
+    </svg>
+    Clear Filters
+  </button>
+</section>
+
+<!-- Activity table (read-only audit trail — no destructive controls) -->
+<section aria-label="Activity log">
+  <div class="table-card" id="table-card">
+    <div class="table-container">
+      <table class="table" id="activity-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Candidate</th>
+            <th>Action</th>
+            <th>Details</th>
+            <th>Message ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+          <tr data-row='{{ log|tojson }}' title="Raw action: {{ log.action }}">
+            <td class="text-nowrap text-secondary">{{ log.timestamp }}</td>
+            <td class="cand-name">{{ log.candidate }}</td>
+            <td>{{ status_badge(log.action_label, log.action_tone) }}</td>
+            <td class="activity-details text-secondary">{{ log.details }}</td>
+            <td class="cand-id">{{ log.message_id }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "partials/pagination.html" %}
+  </div>
+
+  <div class="empty-state" id="list-empty" hidden>
+    <div class="empty-state__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5"></circle>
+        <path d="m16 16 4.5 4.5" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <p class="empty-state__title">No activity found</p>
+    <p class="empty-state__text">Try adjusting your search or filters.</p>
+    <button type="button" class="btn btn--secondary js-clear-filters">Clear Filters</button>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/pages/activity.js') }}"></script>
 {% endblock %}

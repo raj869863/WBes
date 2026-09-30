@@ -547,3 +547,69 @@ a:focus-visible {
   height: 15px;
   cursor: pointer;
 }
+
+/* --------------------------------------------------------------------------
+   Shared list-page patterns (toolbar, table card, table cell hierarchy)
+   -------------------------------------------------------------------------- */
+
+/* .empty-state is display:flex, which would override the hidden attribute */
+.empty-state[hidden] {
+  display: none;
+}
+
+/* Compact filter toolbar (wraps naturally) */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.toolbar .input--search {
+  width: 16rem;
+}
+
+.toolbar .select {
+  width: auto;
+  min-width: 9.5rem;
+}
+
+/* Table + pagination footer as one surface */
+.table-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.table-card .table-container {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Primary/secondary text hierarchy inside a table cell (no avatars) */
+.cand-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cand-name {
+  font-weight: 600;
+}
+
+.cand-contact {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Compact secondary identifier (candidate ID, message ID, ...) */
+.cand-id {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}

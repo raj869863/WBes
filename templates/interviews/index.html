@@ -1,12 +1,123 @@
 {% extends "base.html" %}
+{% from "partials/status_badge.html" import status_badge %}
 
-{% block title %}Interviews{% endblock %}
+{% block title %}Interviews - {{ company }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/interviews.css') }}">
+{% endblock %}
 
 {% block page_title %}Interviews{% endblock %}
-{% block page_subtitle %}Interview pipeline and outcomes{% endblock %}
+{% block page_subtitle %}Manage scheduled and upcoming interviews.{% endblock %}
+
+{% block page_actions %}
+<button type="button" class="btn btn--secondary" id="export-csv">
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M10 3.5v8m0 0 3.5-3.5M10 11.5 6.5 8M4 15h12"></path>
+  </svg>
+  Export CSV
+</button>
+{% endblock %}
 
 {% block page_content %}
-<div class="card">
-  <p class="text-secondary">The Interviews page will be built in a later phase.</p>
-</div>
+
+<!-- Filter toolbar -->
+<section class="toolbar" aria-label="Search and filters">
+  <input type="search" id="interview-search" class="input input--search"
+         placeholder="Search interviews..." autocomplete="off"
+         aria-label="Search by candidate, role or interviewer">
+  <select class="select" id="f-status" data-filter="status" aria-label="Filter by status">
+    <option value="">Status</option>
+    {% for v, l in filters.status %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <select class="select" id="f-role" data-filter="role" aria-label="Filter by role">
+    <option value="">Role</option>
+    {% for v, l in filters.role %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <select class="select" id="f-interviewer" data-filter="interviewer" aria-label="Filter by interviewer">
+    <option value="">Interviewer</option>
+    {% for v, l in filters.interviewer %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <select class="select" id="f-date" data-filter="date" aria-label="Filter by date">
+    <option value="">Date</option>
+    {% for v, l in filters.date %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <select class="select" id="f-slot" data-filter="slot" aria-label="Filter by slot">
+    <option value="">Slot</option>
+    {% for v, l in filters.slot %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <button type="button" class="btn btn--ghost js-clear-filters" id="clear-filters">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 3.8 6.2 7 3 10.2M7.5 13h6"></path>
+    </svg>
+    Clear Filters
+  </button>
+</section>
+
+<!-- Interviews table -->
+<section aria-label="Interview list">
+  <div class="table-card" id="table-card">
+    <div class="table-container">
+      <table class="table" id="interviews-table">
+        <thead>
+          <tr>
+            <th>Candidate</th>
+            <th>Role</th>
+            <th>Interview Date</th>
+            <th>Slot</th>
+            <th>Interviewer</th>
+            <th>Status</th>
+            <th>Google Meet</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for iv in interviews %}
+          <tr data-row='{{ iv|tojson }}'>
+            <td>
+              <div class="cand-cell">
+                <span class="cand-name">{{ iv.candidate }}</span>
+                <span class="cand-contact">{{ iv.cid }}</span>
+              </div>
+            </td>
+            <td class="text-secondary">{{ iv.role }}</td>
+            <td class="text-nowrap">{{ iv.date_label }}</td>
+            <td class="text-nowrap text-secondary">{{ iv.slot or "—" }}</td>
+            <td class="text-secondary">{{ iv.interviewer }}</td>
+            <td>{{ status_badge(iv.status, iv.status_tone) }}</td>
+            <td>
+              {% if iv.meet_url %}
+              <a class="btn btn--soft btn--sm" href="{{ iv.meet_url }}" target="_blank" rel="noopener">Join</a>
+              {% else %}
+              <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+            <td><a class="btn btn--soft btn--sm" href="{{ url_for('candidates.detail', cid=iv.cid) }}">View</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "partials/pagination.html" %}
+  </div>
+
+  <div class="empty-state" id="list-empty" hidden>
+    <div class="empty-state__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5"></circle>
+        <path d="m16 16 4.5 4.5" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <p class="empty-state__title">No interviews found</p>
+    <p class="empty-state__text">Try adjusting your search or filters.</p>
+    <button type="button" class="btn btn--secondary js-clear-filters">Clear Filters</button>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/pages/interviews.js') }}"></script>
 {% endblock %}

@@ -1,12 +1,102 @@
 {% extends "base.html" %}
+{% from "partials/status_badge.html" import status_badge %}
 
-{% block title %}Jobs / JDs{% endblock %}
+{% block title %}Jobs / JDs - {{ company }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/jobs.css') }}">
+{% endblock %}
 
 {% block page_title %}Jobs / JDs{% endblock %}
-{% block page_subtitle %}Open roles and job descriptions{% endblock %}
+{% block page_subtitle %}Manage job descriptions and recruitment requirements.{% endblock %}
 
 {% block page_content %}
-<div class="card">
-  <p class="text-secondary">The Jobs / JDs page will be built in a later phase.</p>
-</div>
+
+<!-- Filter toolbar -->
+<section class="toolbar" aria-label="Search and filters">
+  <input type="search" id="job-search" class="input input--search"
+         placeholder="Search jobs..." autocomplete="off"
+         aria-label="Search by JD code, role or area">
+  <select class="select" id="f-area" data-filter="area" aria-label="Filter by area">
+    <option value="">Area</option>
+    {% for v, l in filters.area %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <select class="select" id="f-role" data-filter="role" aria-label="Filter by role">
+    <option value="">Role</option>
+    {% for v, l in filters.role %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <select class="select" id="f-status" data-filter="status" aria-label="Filter by status">
+    <option value="">Status</option>
+    {% for v, l in filters.status %}<option value="{{ v }}">{{ l }}</option>{% endfor %}
+  </select>
+  <button type="button" class="btn btn--ghost js-clear-filters" id="clear-filters">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 3.8 6.2 7 3 10.2M7.5 13h6"></path>
+    </svg>
+    Clear Filters
+  </button>
+</section>
+
+<!-- Jobs table -->
+<section aria-label="Job list">
+  <div class="table-card" id="table-card">
+    <div class="table-container">
+      <table class="table" id="jobs-table">
+        <thead>
+          <tr>
+            <th>JD Code</th>
+            <th>Role</th>
+            <th>Area</th>
+            <th>Status</th>
+            <th>Tool Test</th>
+            <th>Candidates</th>
+            <th>Description</th>
+            <th>Document</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for j in jobs %}
+          <tr data-row='{{ j|tojson }}'>
+            <td class="text-nowrap">{{ j.jd_code }}</td>
+            <td class="cand-name">{{ j.role }}</td>
+            <td class="text-secondary">{{ j.area }}</td>
+            <td>{{ status_badge(j.status, j.status_tone) }}</td>
+            <td class="text-secondary">{{ j.tool_test }}</td>
+            <td class="text-nowrap">{{ j.candidate_count }}</td>
+            <td class="jobs-desc text-secondary">{{ j.description }}</td>
+            <td>
+              {% if j.has_document %}
+              <a class="btn btn--soft btn--sm" href="#" title="JD document preview will be added in a later phase">View</a>
+              {% else %}
+              <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+            <td><a class="btn btn--soft btn--sm" href="{{ url_for('candidates.index') }}" title="Show candidates for this JD">Candidates</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "partials/pagination.html" %}
+  </div>
+
+  <div class="empty-state" id="list-empty" hidden>
+    <div class="empty-state__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5"></circle>
+        <path d="m16 16 4.5 4.5" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <p class="empty-state__title">No jobs found</p>
+    <p class="empty-state__text">Try adjusting your search or filters.</p>
+    <button type="button" class="btn btn--secondary js-clear-filters">Clear Filters</button>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/pages/jobs.js') }}"></script>
 {% endblock %}
